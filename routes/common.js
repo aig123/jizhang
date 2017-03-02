@@ -14,5 +14,9 @@ module.exports = {
             console.log(ret);
             this.res.json(ret);
         }, this);
+    },
+    '/405\.html': function(){
+        console.log(this.req.url);
+        this.res.render('405');
     }
 };

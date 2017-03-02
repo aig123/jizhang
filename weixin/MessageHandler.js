@@ -31,7 +31,15 @@ module.exports = {
             if(msgObj.content == "1") {
                 callback.call(scope, this.createResTextMsg(msgObj, WXConfig.MGS.hello));
             }else{
-                callback.call(scope, "");
+                callback.call(scope, this.createCommonTextMsg(msgObj,msgObj.content));
+            }
+        }
+        //语音识别msgObj.content
+        if(msgObj.msgtype === "voice"){
+            if(msgObj.recognition == "1") {
+                callback.call(scope, this.createResTextMsg(msgObj, WXConfig.MGS.hello));
+            }else{
+                callback.call(scope, this.createCommonTextMsg(msgObj,msgObj.recognition));
             }
         }
     },
@@ -51,7 +59,16 @@ module.exports = {
 
         return this.JS2XML(res);
     },
+    createCommonTextMsg: function(msg, content){
+        var res = {};
+        res.ToUserName = msg.fromusername;
+        res.FromUserName  = msg.tousername;
+        res.CreateTime = new Date().getTime();
+        res.MsgType = 'text';
+        res.Content = "输入识别："+"["+content+"]";
 
+        return this.JS2XML(res);
+    },
     /**
      *
      * @param json
